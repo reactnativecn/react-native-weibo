@@ -133,7 +133,7 @@ RCT_EXPORT_METHOD(shareToWeibo:(NSDictionary *)aData
                 body[@"userID"] = authorizeResponse.userID;
                 body[@"accessToken"] = authorizeResponse.accessToken;
                 body[@"expirationDate"] = @([authorizeResponse.expirationDate timeIntervalSince1970]);
-                body[@"refreshToken"] = @"authorizeResponse.refreshToken";
+                body[@"refreshToken"] = authorizeResponse.refreshToken;
             }
         }
         else
