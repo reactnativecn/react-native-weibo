@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/reactnativecn/react-native-weibo/issues"
   },
-  "homepage": "https://github.com/reactnativecn/react-native-weibo#readme"
+  "homepage": "https://github.com/reactnativecn/react-native-weibo#readme",
+  "dependencies": {
+    "es6-promisify": "^3.0.0"
+  }
 }
