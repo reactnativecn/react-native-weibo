@@ -214,9 +214,9 @@ import * as WeiboAPI from 'react-native-weibo';
 
 ```javascript
 // 登录参数 
-{	
+config : {	
 	scope: 权限设置, // 默认 'all'
-	redirectURI: 重定向地址, // 默认 'https://api.weibo.com/oauth2/default.html'(必须和sina微博开放平台中应		用对应的redirectURI设置的一致，不然会登录失败)
+	redirectURI: 重定向地址, // 默认 'https://api.weibo.com/oauth2/default.html'(必须和sina微博开放平台中应用高级设置中的redirectURI设置的一致，不然会登录失败)
 }
 ```
 
@@ -224,10 +224,10 @@ import * as WeiboAPI from 'react-native-weibo';
 
 ```javascript
 {
-	"accessToken": "CAF0085A2AB8FDE7903C97F4792ECBC3",
-	"userID": "0E00BA738F6BB55731A5BBC59746E88D"
-	"expirationDate": "1458208143094.6"	
-	"refreshToken": "7903C97F4792ECBC3CAF0085A2AB8FDE"
+	"accessToken": "2.005e3HMBzh7eFCca6a3854060GQFJf",
+	"userID": "1098604232"
+	"expirationDate": "1452884401084.538"	
+	"refreshToken": "2.005e3HMBzh8eFC3db19a18bb00pvbp"
 }
 ```
 
@@ -236,21 +236,19 @@ import * as WeiboAPI from 'react-native-weibo';
 分享到微博
 
 ```javascript
-// 分享图片
+// 分享文字
 {	
-	type: 'image', //可以是'text','image','news','video','audio',  
-	description: 描述,
-	imageUrl: 远程图片地址,
+	type: 'text', 
+	text: 文字内容,
 }
 ```
 
 ```javascript
-// 分享文字
+// 分享图片
 {	
-	type: 'text',
-	title : 标题,  
-	description: 描述,
-	imageUrl: 远程图片地址,
+	type: 'image',
+	text: 文字内容,
+	imageUrl: 图片地址,
 }
 ```
 

@@ -95,12 +95,14 @@ public class WeiboModule extends ReactContextBaseJavaModule implements ActivityE
     private static final String RCTWBShareTypeText = "text";
     private static final String RCTWBShareTypeVideo = "video";
     private static final String RCTWBShareTypeAudio = "audio";
-//    private static final String RCTWBShareToken = "token";
+
     private static final String RCTWBShareType = "type";
+    private static final String RCTWBShareText = "text";
     private static final String RCTWBShareTitle = "title";
     private static final String RCTWBShareDescription = "description";
     private static final String RCTWBShareWebpageUrl = "webpageUrl";
     private static final String RCTWBShareImageUrl = "imageUrl";
+    private static final String RCTWBShareAccessToken = "accessToken";
 
     private static WeiboModule gModule = null;
 
@@ -258,8 +260,8 @@ public class WeiboModule extends ReactContextBaseJavaModule implements ActivityE
         this.registerShare();
         WeiboMultiMessage weiboMessage = new WeiboMultiMessage();//初始化微博的分享消息
         TextObject textObject = new TextObject();
-        if (data.hasKey(RCTWBShareDescription)) {
-            textObject.text = data.getString(RCTWBShareDescription);
+        if (data.hasKey(RCTWBShareText)) {
+            textObject.text = data.getString(RCTWBShareText);
         }
         weiboMessage.textObject = textObject;
 
@@ -301,10 +303,10 @@ public class WeiboModule extends ReactContextBaseJavaModule implements ActivityE
                 weiboMessage.mediaObject = musicObject;
             }
             if (data.hasKey(RCTWBShareDescription)) {
-                weiboMessage.mediaObject.description = data.getString(data.getString(RCTWBShareDescription));
+                weiboMessage.mediaObject.description = data.getString(RCTWBShareDescription);
             }
             if (data.hasKey(RCTWBShareTitle)) {
-                weiboMessage.mediaObject.title = data.getString(data.getString(RCTWBShareTitle));
+                weiboMessage.mediaObject.title = data.getString(RCTWBShareTitle);
             }
             if (bitmap != null) {
                 weiboMessage.mediaObject.setThumbImage(bitmap);
@@ -316,8 +318,11 @@ public class WeiboModule extends ReactContextBaseJavaModule implements ActivityE
         request.transaction = String.valueOf(System.currentTimeMillis());
         request.multiMessage = weiboMessage;
 
-        AuthInfo sinaAuthInfo = this._genAuthInfo(data);
-        boolean success = mSinaShareAPI.sendRequest(getMainActivity(), request, sinaAuthInfo, null, genWeiboAuthListener());
+        String accessToken = null;
+        if (data.hasKey(RCTWBShareAccessToken)) {
+            accessToken = data.getString(RCTWBShareAccessToken);
+        }
+        boolean success = mSinaShareAPI.sendRequest(getMainActivity(), request, null, accessToken, genWeiboAuthListener());
 
         if (success == false) {
             WritableMap event = Arguments.createMap();

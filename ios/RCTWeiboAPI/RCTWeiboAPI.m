@@ -12,8 +12,6 @@
 #import "RCTEventDispatcher.h"
 #import "RCTImageLoader.h"
 
-#define kRCTSinaToken @"RCTSettingsStrSinaToken"
-
 #define INVOKE_FAILED (@"WeiBo API invoke returns false.")
 #define RCTWBEventName (@"Weibo_Resp")
 
@@ -24,12 +22,13 @@
 #define RCTWBShareTypeVideo @"video"
 #define RCTWBShareTypeAudio @"audio"
 
-#define RCTWBShareToken @"token"
 #define RCTWBShareType @"type"
+#define RCTWBShareText @"text"
 #define RCTWBShareTitle @"title"
 #define RCTWBShareDescription @"description"
 #define RCTWBShareWebpageUrl @"webpageUrl"
 #define RCTWBShareImageUrl @"imageUrl"
+#define RCTWBShareAccessToken @"accessToken"
 
 BOOL gRegister = NO;
 
@@ -151,7 +150,7 @@ RCT_EXPORT_METHOD(shareToWeibo:(NSDictionary *)aData
             body[@"userID"] = authorizeResponse.userID;
             body[@"accessToken"] = authorizeResponse.accessToken;
             body[@"expirationDate"] = @([authorizeResponse.expirationDate timeIntervalSince1970]*1000);
-            body[@"refreshToken"] = @"authorizeResponse.refreshToken";
+            body[@"refreshToken"] = authorizeResponse.refreshToken;
         }
         else
         {
@@ -224,9 +223,8 @@ RCT_EXPORT_METHOD(shareToWeibo:(NSDictionary *)aData
 
 - (void)_shareWithData:(NSDictionary *)aData image:(UIImage *)aImage
 {
-    NSString *token = aData[RCTWBShareToken];
     WBMessageObject *message = [WBMessageObject message];
-    NSString *text = aData[RCTWBShareDescription];
+    NSString *text = aData[RCTWBShareText];
     message.text = text;
     
     NSString *type = aData[RCTWBShareType];
@@ -266,8 +264,8 @@ RCT_EXPORT_METHOD(shareToWeibo:(NSDictionary *)aData
     }
     
     WBAuthorizeRequest *authRequest = [self _genAuthRequest:aData];
-    
-    WBSendMessageToWeiboRequest *request = [WBSendMessageToWeiboRequest requestWithMessage:message authInfo:authRequest access_token:token];
+    NSString *accessToken = aData[RCTWBShareAccessToken];
+    WBSendMessageToWeiboRequest *request = [WBSendMessageToWeiboRequest requestWithMessage:message authInfo:authRequest access_token:accessToken];
     
     BOOL success = [WeiboSDK sendRequest:request];
     if (!success) {
