@@ -2,12 +2,10 @@
  * Created by lvbingru on 1/5/16.
  */
 
-import {NativeModules} from 'react-native';
+import {NativeModules, NativeAppEventEmitter} from 'react-native';
 import promisify from 'es6-promisify';
 
 const {WeiboAPI} = NativeModules;
-
-AppEventEmitter = require('RCTNativeAppEventEmitter')
 
 // Used only with promisify. Transform callback to promise result.
 function translateError(err, result) {
@@ -58,7 +56,7 @@ function waitForResponse(type) {
     });
 }
 
-AppEventEmitter.addListener('Weibo_Resp', resp => {
+NativeAppEventEmitter.addListener('Weibo_Resp', resp => {
     const callback = savedCallback;
     savedCallback = undefined;
     callback && callback(resp);
