@@ -137,34 +137,10 @@ dependencies{
 }
 ```
 
-在`android/app/src/main/AndroidManifest.xml`里，`<manifest>`标签中添加如下代码：
-
-```
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-```
-
 `<application>`标签中添加如下代码：
 
 ```	
 	<meta-data android:name="WB_APPID" android:value="${WB_APPID}" />
-    <activity android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
-           android:configChanges="keyboardHidden|orientation"
-           android:windowSoftInputMode="adjustResize"
-           android:exported="false" >
-    </activity>
-    <service android:name="com.sina.weibo.sdk.net.DownloadService"
-           android:exported="false">
-    </service>
-	<activity android:name="cn.reactnative.modules.weibo.WeiboModule$SinaEntryActivity" 
-		android:configChanges="keyboardHidden|orientation" android:screenOrientation="portrait" >
-        <intent-filter>
-        	<action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
-        	<category android:name="android.intent.category.DEFAULT" />
-        </intent-filter>
-    </activity>
 ```
 
 `android/app/build.gradle`里，defaultConfig栏目下添加如下代码：
