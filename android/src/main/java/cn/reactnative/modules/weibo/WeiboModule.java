@@ -36,7 +36,6 @@ import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
@@ -59,7 +58,6 @@ import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 
-import java.lang.reflect.Field;
 import java.util.Date;
 
 import javax.annotation.Nullable;
@@ -71,7 +69,6 @@ public class WeiboModule extends ReactContextBaseJavaModule implements ActivityE
 
     public WeiboModule(ReactApplicationContext reactContext) {
         super(reactContext);
-
         ApplicationInfo appInfo = null;
         try {
             appInfo = reactContext.getPackageManager().getApplicationInfo(reactContext.getPackageName(), PackageManager.GET_META_DATA);
@@ -133,27 +130,12 @@ public class WeiboModule extends ReactContextBaseJavaModule implements ActivityE
         return mSinaShareAPI;
     }
 
-    private Activity getMainActivity(){
-        ReactContext context = getReactApplicationContext();
-        Field[] fields = ReactContext.class.getDeclaredFields();
-        for (Field field : fields){
-            if (field.getName().equals("mCurrentActivity")){
-                field.setAccessible(true);
-                try {
-                    return (Activity)field.get(context);
-                }catch (Throwable e){
-                    Log.e("ReactNative", e.getMessage(), e);
-                }
-            }
-        }
-        return null;
-    }
 
     @ReactMethod
     public void login(final ReadableMap config, final Callback callback){
 
         AuthInfo sinaAuthInfo = this._genAuthInfo(config);
-        mSinaSsoHandler = new SsoHandler(getMainActivity(), sinaAuthInfo);
+        mSinaSsoHandler = new SsoHandler(getCurrentActivity(), sinaAuthInfo);
         mSinaSsoHandler.authorize(this.genWeiboAuthListener());
         callback.invoke();
     }
@@ -322,7 +304,7 @@ public class WeiboModule extends ReactContextBaseJavaModule implements ActivityE
         if (data.hasKey(RCTWBShareAccessToken)) {
             accessToken = data.getString(RCTWBShareAccessToken);
         }
-        boolean success = mSinaShareAPI.sendRequest(getMainActivity(), request, null, accessToken, genWeiboAuthListener());
+        boolean success = mSinaShareAPI.sendRequest(getCurrentActivity(), request, null, accessToken, genWeiboAuthListener());
 
         if (success == false) {
             WritableMap event = Arguments.createMap();
