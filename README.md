@@ -8,11 +8,14 @@ React Native的新浪微博登录插件, react-native版本需要0.17.0及以上
 ```bash
 npm install react-native-weibo --save
 ```
+
+#### Note: rnpm requires node version 4.1 or higher
+
 ### 安装iOS工程
 将`node_modules/react-native-weibo/ios/RCTWeiboAPI.xcodeproj`加入到工程中
 将`node_modules/react-native-weibo/ios/libWeiboSDK/WeiboSDK.bundle`加入到工程中(必须，很重要，不然登录的时候会crash)
 
-在工程target的`Build Phases->Link Binary with Libraries`中加入`libRCTWeiboAPI.a、libsqlite3.tbd、liz.tbd、QuartzCore.framework、ImageIO.framework、SystemConfiguration.framework、Security.framework、CoreTelephony.framework、CoreText.framework、 UIKit.framework、Foundation.framework、CoreGraphics.framework`
+在工程target的`Build Phases->Link Binary with Libraries`中加入`libRCTWeiboAPI.a、libsqlite3.tbd、liz.tbd、ImageIO.framework、SystemConfiguration.framework、Security.framework、CoreTelephony.framework、CoreText.framework`
 
 
 在`Info->URL Types` 中增加QQ的scheme： `Identifier` 设置为`sina`, `URL Schemes` 设置为你注册的微博开发者账号中的APPID，需要加前缀`wb`，例如`wb1915346979`
@@ -20,7 +23,7 @@ npm install react-native-weibo --save
 在你工程的`AppDelegate.m`文件中添加如下代码：
 
 ```
-#import "RCTLinkingManager.h"
+#import "../Libraries/LinkingIOS/RCTLinkingManager.h"
 
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
@@ -73,12 +76,6 @@ dependencies{
     ... // 原本的代码
     compile project(':react-native-weibo')
 }
-```
-
-`<application>`标签中添加如下代码：
-
-```	
-	<meta-data android:name="WB_APPID" android:value="${WB_APPID}" />
 ```
 
 `android/app/build.gradle`里，defaultConfig栏目下添加如下代码：
@@ -165,13 +162,3 @@ config : {
 	imageUrl: 图片地址	
 }
 ```
-
-## 常见问题
-
-#### Android: 调用WeiboAPI.login()没有反应
-
-通常出现这个原因是因为Manifest没有配置好，检查Manifest中有关Activity的配置。
-
-#### Android: 已经成功激活微博登录，但回调没有被执行
-
-通常出现这个原因是因为MainActivity.java中缺少onActivityResult的调用。

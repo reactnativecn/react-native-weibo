@@ -9,6 +9,7 @@
     <application
         android:allowBackup="true"
         >
+        <meta-data android:name="WB_APPID" android:value="${WB_APPID}" />
         <activity android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
             android:windowSoftInputMode="adjustResize"
