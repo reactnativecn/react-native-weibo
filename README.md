@@ -3,16 +3,71 @@
 React Native的新浪微博登录插件, react-native版本需要0.17.0及以上
 ## 如何安装
 
-### 首先安装npm包
+### 1.首先安装npm包
 
 ```bash
 npm install react-native-weibo --save
 ```
 
-#### Note: rnpm requires node version 4.1 or higher
+### 2.link
+#### 自动link方法~ rnpm requires node version 4.1 or higher
 
-### 安装iOS工程
-将`node_modules/react-native-weibo/ios/RCTWeiboAPI.xcodeproj`加入到工程中
+```bash
+rnpm link
+```
+link成功命令行会提示
+
+```bash
+rnpm info Linking react-native-weibo android dependency 
+rnpm info Linking react-native-weibo ios dependency
+```
+
+#### 手动link~（如果不能够自动link）
+#####ios
+a.打开XCode's工程中, 右键点击Libraries文件夹 ➜ Add Files to <...>
+b.去node_modules ➜ react-native-weibo ➜ ios ➜ 选择 RCTWeiboAPI.xcodeproj
+c.在工程Build Phases ➜ Link Binary With Libraries中添加libRCTWeiboAPI.a
+
+#####Android
+
+```
+// file: android/settings.gradle
+...
+
+include ':react-native-weibo'
+project(':react-native-weibo').projectDir = new File(settingsDir, '../node_modules/react-native-weibo/android')
+```
+
+```
+// file: android/app/build.gradle
+...
+
+dependencies {
+    ...
+    compile project(':react-native-weibo')
+}
+```
+
+`android/app/src/main/java/<你的包名>/MainActivity.java`中，`public class MainActivity`之前增加：
+
+```java
+import cn.reactnative.modules.weibo.WeiboPackage;
+```
+
+如果react-native-版本 <0.18.0
+`.addPackage(new MainReactPackage())`之后增加：
+
+```java
+.addPackage(new WeiboPackage())
+```
+如果react-native-版本 >=0.18.0
+在`new MainReactPackage()`之后增加
+```java
+,new WeiboPackage()
+```
+
+### 3.工程配置
+#### ios配置
 将`node_modules/react-native-weibo/ios/libWeiboSDK/WeiboSDK.bundle`加入到工程中(必须，很重要，不然登录的时候会crash)
 
 在工程target的`Build Phases->Link Binary with Libraries`中加入`libRCTWeiboAPI.a、libsqlite3.tbd、liz.tbd、ImageIO.framework、SystemConfiguration.framework、Security.framework、CoreTelephony.framework、CoreText.framework`
@@ -32,10 +87,10 @@ npm install react-native-weibo --save
 
 ```
 
-### iOS9的适配问题
+##### iOS9的适配问题
 
 由于iOS9的发布影响了微博SDK与应用的集成方式，为了确保好的应用体验，我们需要采取如下措施：
-#### 1.对传输安全的支持
+##### a.对传输安全的支持
 在iOS9系统中，默认需要为每次网络传输建立SSL。解决这个问题：
 
 - 将NSAllowsArbitraryLoads属性设置为YES，并添加到你应用的plist中
@@ -46,7 +101,7 @@ npm install react-native-weibo --save
 	</true>
 	</dict>
 
-#### 2.对应用跳转的支持
+###### b.对应用跳转的支持
 如果你需要用到微博的相关功能，如登陆，分享等。并且需要实现跳转到微博的功能，在iOS9系统中就需要在你的app的plist中添加下列键值对。否则在canOpenURL函数执行时，就会返回NO。了解详情请至[https://developer.apple.com/videos/wwdc/2015/?id=703](https://developer.apple.com/videos/wwdc/2015/?id=703)
 
 -
@@ -59,56 +114,25 @@ npm install react-native-weibo --save
 	</array>
 	
 
+#### Android
 
-### 安装Android工程
-
-在`android/settings.gradle`里添加如下代码：
-
-```
-include ':react-native-weibo'
-project(':react-native-weibo').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-weibo/android')
-```
-
-在`android/app/build.gradle`里的`dependencies`结构中添加如下代码：
+在`android/app/build.gradle`里，defaultConfig栏目下添加如下代码：
 
 ```
-dependencies{
-    ... // 原本的代码
-    compile project(':react-native-weibo')
+manifestPlaceholders = [
+    WB_APPID: "微博的APPID"		//在此修改微博APPID
+]
+```
+
+如果react-native版本<0.18.0,确保你的MainActivity.java中有`onActivityResult`的实现：
+
+```java
+private ReactInstanceManager mReactInstanceManager;
+@Override
+public void onActivityResult(int requestCode, int resultCode, Intent data){
+    super.onActivityResult(requestCode, resultCode, data);
+    mReactInstanceManager.onActivityResult(requestCode, resultCode, data);
 }
-```
-
-`android/app/build.gradle`里，defaultConfig栏目下添加如下代码：
-
-```
-		manifestPlaceholders = [
-            WB_APPID: "微博的APPID"		//在此修改微博APPID
-        ]
-```
-
-以后如果需要修改APPID，只需要修改此一处。
-
-
-`android/app/src/main/java/<你的包名>/MainActivity.java`中，`public class MainActivity`之前增加：
-
-```java
-import cn.reactnative.modules.weibo.WeiboPackage;
-```
-
-`.addPackage(new MainReactPackage())`之后增加：
-
-```java
-                .addPackage(new WeiboPackage())
-```
-
-另外，确保你的MainActivity.java中有`onActivityResult`的实现：
-
-```java
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
-        mReactInstanceManager.onActivityResult(requestCode, resultCode, data);
-    }
 ```
 
 ## 如何使用
