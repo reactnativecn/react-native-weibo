@@ -166,7 +166,7 @@ config : {
 }
 ```
 
-#### WeiboAPI.shareToWeibo(data)
+#### WeiboAPI.share(data)
 
 分享到微博
 
