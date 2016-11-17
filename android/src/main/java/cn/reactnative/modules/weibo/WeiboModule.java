@@ -26,7 +26,6 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.drawable.OrientedDrawable;
 import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.core.ImagePipeline;
-import com.facebook.imagepipeline.image.CloseableAnimatedImage;
 import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.image.CloseableStaticBitmap;
 import com.facebook.imagepipeline.image.EncodedImage;
@@ -189,12 +188,19 @@ public class WeiboModule extends ReactContextBaseJavaModule implements ActivityE
         callback.invoke();
     }
 
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (mSinaSsoHandler != null) {
             mSinaSsoHandler.authorizeCallBack(requestCode, resultCode, data);
             mSinaSsoHandler = null;
         }
+    }
+
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data){
+        this.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void onNewIntent(Intent intent){
+
     }
 
     WeiboAuthListener genWeiboAuthListener() {
@@ -420,9 +426,6 @@ public class WeiboModule extends ReactContextBaseJavaModule implements ActivityE
             } else {
                 return new OrientedDrawable(bitmapDrawable, closeableStaticBitmap.getRotationAngle());
             }
-        } else if (closeableImage instanceof CloseableAnimatedImage) {
-            return Fresco.getImagePipelineFactory().getAnimatedDrawableFactory().create(
-                    ((CloseableAnimatedImage) closeableImage).getImageResult());
         } else {
             throw new UnsupportedOperationException("Unrecognized image class: " + closeableImage);
         }

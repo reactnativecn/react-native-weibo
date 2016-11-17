@@ -22,6 +22,6 @@ android {
 }
 
 dependencies {
-    compile 'com.facebook.react:react-native:0.17.+'
+    compile 'com.facebook.react:react-native:+'
     compile files('libs/weiboSDKCore_3.1.2.jar')
 }
