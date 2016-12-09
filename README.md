@@ -120,7 +120,7 @@ import cn.reactnative.modules.weibo.WeiboPackage;
 
 ```
 manifestPlaceholders = [
-    WB_APPID: "微博的APPID"		//在此修改微博APPID
+    WB_APPID: "微博的APPID"		//在此修改微博APPID, like 'wb+APP_KEY'
 ]
 ```
 
