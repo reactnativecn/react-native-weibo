@@ -8,13 +8,12 @@
 
 #import "RCTWeiboAPI.h"
 #import "WeiboSDK.h"
-#import "RCTBridge.h"
-#import "RCTEventDispatcher.h"
-#import "RCTImageLoader.h"
+#import <React/RCTBridge.h>
+#import <React/RCTEventDispatcher.h>
+#import <React/RCTImageLoader.h>
 
 #define INVOKE_FAILED (@"WeiBo API invoke returns false.")
 #define RCTWBEventName (@"Weibo_Resp")
-
 
 #define RCTWBShareTypeNews @"news"
 #define RCTWBShareTypeImage @"image"
@@ -51,7 +50,7 @@ RCT_EXPORT_MODULE();
 {
     self = [super init];
     if (self) {
-        
+
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURL:) name:@"RCTOpenURLNotification" object:nil];
     }
     return self;
@@ -66,7 +65,7 @@ RCT_EXPORT_METHOD(login:(NSDictionary *)config
                   :(RCTResponseSenderBlock)callback)
 {
     [self _autoRegisterAPI];
-    
+
     WBAuthorizeRequest *request = [self _genAuthRequest:config];
     BOOL success = [WeiboSDK sendRequest:request];
     callback(@[success?[NSNull null]:INVOKE_FAILED]);
@@ -112,7 +111,7 @@ RCT_EXPORT_METHOD(shareToWeibo:(NSDictionary *)aData
 {
     if ([request isKindOfClass:WBProvideMessageForWeiboRequest.class])
     {
-        
+
     }
 }
 
@@ -168,7 +167,7 @@ RCT_EXPORT_METHOD(shareToWeibo:(NSDictionary *)aData
     if (gRegister) {
         return;
     }
-    
+
     NSArray *list = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleURLTypes"];
     for (NSDictionary *item in list) {
         NSString *name = item[@"CFBundleURLName"];
@@ -226,7 +225,7 @@ RCT_EXPORT_METHOD(shareToWeibo:(NSDictionary *)aData
     WBMessageObject *message = [WBMessageObject message];
     NSString *text = aData[RCTWBShareText];
     message.text = text;
-    
+
     NSString *type = aData[RCTWBShareType];
     if ([type isEqualToString:RCTWBShareTypeText]) {
     }
@@ -262,11 +261,11 @@ RCT_EXPORT_METHOD(shareToWeibo:(NSDictionary *)aData
             message.mediaObject.thumbnailData = UIImageJPEGRepresentation(aImage, 0.7);
         }
     }
-    
+
     WBAuthorizeRequest *authRequest = [self _genAuthRequest:aData];
     NSString *accessToken = aData[RCTWBShareAccessToken];
     WBSendMessageToWeiboRequest *request = [WBSendMessageToWeiboRequest requestWithMessage:message authInfo:authRequest access_token:accessToken];
-    
+
     BOOL success = [WeiboSDK sendRequest:request];
     if (!success) {
         NSMutableDictionary *body = [NSMutableDictionary new];
@@ -281,11 +280,11 @@ RCT_EXPORT_METHOD(shareToWeibo:(NSDictionary *)aData
 {
     NSString *redirectURI = config[@"redirectURI"];
     NSString *scope = config[@"scope"];
-    
+
     WBAuthorizeRequest *authRequest = [WBAuthorizeRequest request];
     authRequest.redirectURI = redirectURI;
     authRequest.scope = scope;
-    
+
     return authRequest;
 }
 
