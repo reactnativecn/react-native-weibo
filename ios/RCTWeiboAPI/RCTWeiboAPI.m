@@ -8,9 +8,9 @@
 
 #import "RCTWeiboAPI.h"
 #import "WeiboSDK.h"
-#import "RCTBridge.h"
-#import "RCTEventDispatcher.h"
-#import "RCTImageLoader.h"
+#import <React/RCTBridge.h>
+#import <React/RCTEventDispatcher.h>
+#import <React/RCTImageLoader.h>
 
 #define INVOKE_FAILED (@"WeiBo API invoke returns false.")
 #define RCTWBEventName (@"Weibo_Resp")
