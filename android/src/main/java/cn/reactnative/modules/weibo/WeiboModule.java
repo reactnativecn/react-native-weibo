@@ -56,6 +56,7 @@ import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.utils.Utility;
 
 import java.util.Date;
 
@@ -77,7 +78,7 @@ public class WeiboModule extends ReactContextBaseJavaModule implements ActivityE
         if (!appInfo.metaData.containsKey("WB_APPID")){
             throw new Error("meta-data WB_APPID not found in AndroidManifest.xml");
         }
-        this.appId = appInfo.metaData.get("WB_APPID").toString();
+        this.appId = appInfo.metaData.getString("WB_APPID");
         this.appId = this.appId.substring(2);
 
     }
@@ -249,11 +250,6 @@ public class WeiboModule extends ReactContextBaseJavaModule implements ActivityE
 
         this.registerShare();
         WeiboMultiMessage weiboMessage = new WeiboMultiMessage();//初始化微博的分享消息
-        TextObject textObject = new TextObject();
-        if (data.hasKey(RCTWBShareText)) {
-            textObject.text = data.getString(RCTWBShareText);
-        }
-        weiboMessage.textObject = textObject;
 
         String type = RCTWBShareTypeNews;
         if (data.hasKey(RCTWBShareType)){
@@ -261,6 +257,11 @@ public class WeiboModule extends ReactContextBaseJavaModule implements ActivityE
         }
 
         if (type.equals(RCTWBShareTypeText)) {
+            TextObject textObject = new TextObject();
+            if (data.hasKey(RCTWBShareText)) {
+                textObject.text = data.getString(RCTWBShareText);
+            }
+            weiboMessage.textObject = textObject;
         }
         else if (type.equals(RCTWBShareTypeImage)) {
             ImageObject imageObject = new ImageObject();
@@ -301,7 +302,7 @@ public class WeiboModule extends ReactContextBaseJavaModule implements ActivityE
             if (bitmap != null) {
                 weiboMessage.mediaObject.setThumbImage(bitmap);
             }
-            weiboMessage.mediaObject.identify = new Date().toString();
+            weiboMessage.mediaObject.identify = Utility.generateGUID();
         }
 
         SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
