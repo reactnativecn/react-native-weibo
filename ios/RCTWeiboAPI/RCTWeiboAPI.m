@@ -8,7 +8,8 @@
 
 #import "RCTWeiboAPI.h"
 #import "WeiboSDK.h"
-#ifdef __has_include(<React/RCTBridge.h>)
+
+#if __has_include(<React/RCTBridge.h>)
 #import <React/RCTBridge.h>
 #import <React/RCTEventDispatcher.h>
 #import <React/RCTImageLoader.h>
@@ -16,7 +17,7 @@
 #import "RCTBridge.h"
 #import "RCTEventDispatcher.h"
 #import "RCTImageLoader.h"
-#end
+#endif
 
 #define INVOKE_FAILED (@"WeiBo API invoke returns false.")
 #define RCTWBEventName (@"Weibo_Resp")
@@ -57,7 +58,7 @@ RCT_EXPORT_MODULE();
 {
     self = [super init];
     if (self) {
-        
+
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURL:) name:@"RCTOpenURLNotification" object:nil];
     }
     return self;
@@ -72,7 +73,7 @@ RCT_EXPORT_METHOD(login:(NSDictionary *)config
                   :(RCTResponseSenderBlock)callback)
 {
     [self _autoRegisterAPI];
-    
+
     WBAuthorizeRequest *request = [self _genAuthRequest:config];
     BOOL success = [WeiboSDK sendRequest:request];
     callback(@[success?[NSNull null]:INVOKE_FAILED]);
