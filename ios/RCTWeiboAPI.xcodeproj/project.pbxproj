@@ -250,6 +250,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/../../react-native/React/**",
 					"$(SRCROOT)/../../react-native/Libraries/**",
+					"$(BUILT_PRODUCTS_DIR)/include/**",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -268,6 +269,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/../../react-native/React/**",
 					"$(SRCROOT)/../../react-native/Libraries/**",
+					"$(BUILT_PRODUCTS_DIR)/include/**",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

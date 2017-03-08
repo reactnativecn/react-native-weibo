@@ -10,16 +10,10 @@ npm install react-native-weibo --save
 ```
 
 ### 2.link
-#### 自动link方法~ rnpm requires node version 4.1 or higher
+#### 自动link方法
 
 ```bash
-rnpm link
-```
-link成功命令行会提示
-
-```bash
-rnpm info Linking react-native-weibo android dependency 
-rnpm info Linking react-native-weibo ios dependency
+react-native link
 ```
 
 #### 手动link~（如果不能够自动link）
