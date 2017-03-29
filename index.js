@@ -3,7 +3,7 @@
  */
 
 import {NativeModules, NativeAppEventEmitter} from 'react-native';
-import Promise from 'bulebird';
+import Promise from 'bluebird';
 
 const {WeiboAPI} = NativeModules;
 
