@@ -26,6 +26,6 @@
   },
   "homepage": "https://github.com/reactnativecn/react-native-weibo#readme",
   "dependencies": {
-    "blue-bird": "^3.5.0"
+    "bluebird": "^3.5.0"
   }
 }
