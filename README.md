@@ -204,3 +204,4 @@ config : {
 }
 
 效果：[这里](https://github.com/TrustTheBoy/Old-driver-collection/blob/master/Images/weibo.jpg)
+或者[ltjin](https://github.com/ltjin/react-native-weibo)
