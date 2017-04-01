@@ -192,3 +192,16 @@ config : {
 	imageUrl: 图片地址	
 }
 ```
+
+分享网页的方式：提供了ios的webpageUrl，android没有对于不懂原生的伙伴，可以以另一种方式发送网页
+
+```
+//分享网页
+{
+	type: 'image',
+	text: 文字内容,	
+	imageUrl: 图片地址+"\n"+webpageUrl
+}
+
+效果：[这里](https://github.com/TrustTheBoy/Old-driver-collection/blob/master/Images/weibo.jpg)
+或者[ltjin](https://github.com/ltjin/react-native-weibo)
