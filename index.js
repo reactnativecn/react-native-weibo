@@ -6,8 +6,8 @@ import {NativeModules, NativeAppEventEmitter} from 'react-native';
 
 function promisify(fn, handler) {
   return function (...args) {
-    return new Promise(function () {
-      fn(...args, handler.bind(this))
+    return new Promise(function (resolve, reject) {
+      fn(...args, handler.bind({ resolve, reject }))
     })
   }
 }
