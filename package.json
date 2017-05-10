@@ -1,6 +1,6 @@
 {
   "name": "react-native-weibo",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "新浪微博登录、分享模块",
   "main": "index.js",
   "scripts": {
@@ -24,8 +24,5 @@
   "bugs": {
     "url": "https://github.com/reactnativecn/react-native-weibo/issues"
   },
-  "homepage": "https://github.com/reactnativecn/react-native-weibo#readme",
-  "dependencies": {
-    "es6-promisify": "^3.0.0"
-  }
+  "homepage": "https://github.com/reactnativecn/react-native-weibo#readme"
 }
