@@ -76,6 +76,9 @@ public class MainApplication extends Application implements ReactApplication {
 #### ios配置
 将`node_modules/react-native-weibo/ios/libWeiboSDK/WeiboSDK.bundle`加入到工程中(必须，很重要，不然登录的时候会crash)
 
+> 手动添加 `WeiBoSDK.bundle`   
+> `Target` -> `Build Phase` -> `Copy Bundle Resources` 
+
 在工程target的`Build Phases->Link Binary with Libraries`中加入`libRCTWeiboAPI.a、libsqlite3.tbd、libz.tbd、ImageIO.framework、SystemConfiguration.framework、Security.framework、CoreTelephony.framework、CoreText.framework`
 
 
