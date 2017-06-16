@@ -17,12 +17,12 @@ react-native link
 ```
 
 #### 手动link~（如果不能够自动link）
-####ios
+##### ios
 a.打开XCode's工程中, 右键点击Libraries文件夹 ➜ Add Files to <...>
 b.去node_modules ➜ react-native-weibo ➜ ios ➜ 选择 RCTWeiboAPI.xcodeproj
 c.在工程Build Phases ➜ Link Binary With Libraries中添加libRCTWeiboAPI.a
 
-####Android
+##### Android
 
 ```
 // file: android/settings.gradle
