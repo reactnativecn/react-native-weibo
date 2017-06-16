@@ -3,7 +3,6 @@
  */
 
 import {NativeModules, NativeAppEventEmitter} from 'react-native';
-import promisify from 'es6-promisify';
 
 const {WeiboAPI} = NativeModules;
 
@@ -31,6 +30,14 @@ function wrapApi(nativeFunc) {
     return (...args) => {
         return promisified(...args);
     };
+}
+
+function promisify(fn, handler) {
+    return function (...args) {
+        return new Promise(function (resolve, reject) {
+            fn(...args, handler.bind({ resolve, reject }))
+        })
+    }
 }
 
 // Save callback and wait for future event.
