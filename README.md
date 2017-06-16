@@ -75,11 +75,13 @@ public class MainApplication extends Application implements ReactApplication {
 ### 3.工程配置
 #### ios配置
 将`node_modules/react-native-weibo/ios/libWeiboSDK/WeiboSDK.bundle`加入到工程中(必须，很重要，不然登录的时候会crash)
+在Build Phases ➜ Copy Bundle Resources ➜ Add Other...  libWeiboSDK/WeiboSDK.bundle
 
 在工程target的`Build Phases->Link Binary with Libraries`中加入`libRCTWeiboAPI.a、libsqlite3.tbd、libz.tbd、ImageIO.framework、SystemConfiguration.framework、Security.framework、CoreTelephony.framework、CoreText.framework`
 
 
 在`Info->URL Types` 中增加QQ的scheme： `Identifier` 设置为`sina`, `URL Schemes` 设置为你注册的微博开发者账号中的APPID，需要加前缀`wb`，例如`wb1915346979`
+
 
 在你工程的`AppDelegate.m`文件中添加如下代码：
 
